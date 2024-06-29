@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+        }
+
+        body {
+            background: url('back.jpg') no-repeat center fixed;
+            background-size: cover;
+        }
+
+        .upper {
+            border: 6px solid blue;
+            position: relative;
+            width: 590px;
+            height: 300px;
+            top: 70px;
+            left: 220px;
+            box-shadow: 19px 15px 15px 15px rgb(99, 99, 225);
+            background-color: rgb(126, 248, 209);
+            z-index: 1;
+        }
+
+        .first,
+        .second,
+        .third {
+            border: 6px solid;
+            width: 180px;
+            height: 200px;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            font-family: "Orbitron", sans-serif;
+            z-index: 2;
+        }
+
+        .first {
+            border-color: rgb(46, 143, 176);
+            color: rgb(46, 143, 176);
+            left: 220px;
+            top: 170px;
+            background: url('back.jpg');
+        }
+
+        .second {
+            border-color: rgb(227, 97, 117);
+            color: rgb(227, 97, 117);
+            left: 406px;
+            top: 170px;
+            background: url('back.jpg');
+        }
+
+        .third {
+            border-color: rgb(6, 175, 15);
+            color: rgb(6, 175, 15);
+            left: 592px;
+            top: 170px;
+            background: url('back.jpg');
+        }
+
+        .first:hover {
+            box-shadow: 5px 5px 15px rgb(46, 143, 176);
+        }
+
+        .second:hover {
+            box-shadow: 5px 5px 15px rgb(227, 97, 117);
+        }
+
+        .third:hover {
+            box-shadow: 5px 5px 15px rgb(6, 175, 15);
+        }
+
+        button {
+            position: relative;
+            left: 661px;
+            width: 120px;
+            height: 40px;
+            background: rgb(238, 127, 238);
+            border-radius: 40px;
+            border: 2px solid rgb(238, 130, 141);
+            font-size: 20px;
+            color: blueviolet;
+            font-family: "Tiny5", sans-serif;
+            z-index: 2;
+        }
+
+        button:hover {
+            box-shadow: 2px 2px 30px blueviolet;
+        }
+
+        h1 {
+            font-family: "Tiny5", sans-serif;
+            text-align: center;
+            font-size: 80px;
+            color: rgb(99, 99, 225);
+            margin-top: 20px;
+            border-bottom: 5px solid rgb(99, 99, 225);
+            width: 200px;
+            height: 75px;
+            padding: 0px;
+            margin-left: 35%;
+        }
+
+        table {
+            position: absolute;
+            border: 5px solid blueviolet;
+            left: 70%;
+            top: 20%;
+            border-collapse: collapse;
+            width: 300px;
+        }
+
+        th,
+        td {
+            border: 1px solid blueviolet;
+            padding: 8px;
+            text-align: center;
+            font-family: "Tiny5", sans-serif;
+            font-size: 20px;
+            color: blueviolet;
+        }
+
+        th {
+            background-color: rgb(238, 127, 238);
+        }
+
+        .end {
+            border: 6px solid red;
+            position: absolute;
+            width: 590px;
+            height: 300px;
+            top: 170px;
+            left: 220px;
+            box-shadow: 19px 15px 15px 15px rgb(229, 71, 32);
+            background-color: transparent;
+            z-index: -1;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>Stopwatch</h1>
+    <div class="upper">
+        <div class="first">0</div>
+        <div class="second">0</div>
+        <div class="third">0</div>
+    </div>
+    <button onclick="Start()">Start</button>
+    <table>
+        <tr id="lal">
+            <th id="fir">Sr. no</th>
+            <th id="fir">Lap</th>
+            <th id="fir">Interval</th>
+        </tr>
+    </table>
+    <div class="end">
+
+    </div>
+    <script>
+        let second = 0;
+        let minute = 0;
+        let hour = 0;
+        let h1 = 0;
+        let m1 = 0;
+        let s1 = 0;
+        let interval;
+        let count = 0;
+
+        function Start() {
+            clearInterval(interval);
+            interval = setInterval(() => {
+                second++;
+                if (second == 60) {
+                    minute++;
+                    second = 0;
+                }
+                if (minute == 60) {
+                    hour++;
+                    minute = 0;
+                }
+
+                document.querySelector('.first').innerHTML = hour;
+                document.querySelector('.second').innerHTML = minute;
+                document.querySelector('.third').innerHTML = second;
+            }, 1000);
+
+            let dis = document.querySelector('button');
+            dis.style.display = 'none';
+
+            let restart = document.createElement('button');
+            restart.setAttribute('class', 'restart');
+            restart.textContent = 'Restart';
+            document.body.appendChild(restart);
+
+            restart.addEventListener('click', function () {
+                clearInterval(interval);
+
+                second = 0;
+                minute = 0;
+                hour = 0;
+                document.querySelector('.first').innerHTML = 0;
+                document.querySelector('.second').innerHTML = 0;
+                document.querySelector('.third').innerHTML = 0;
+
+                dis.style.display = 'block';
+                restart.style.display = 'none';
+                pause.style.display = 'none';
+                lap.style.display = 'none';
+                play.style.display = 'none';
+            });
+
+            let pause = document.createElement('button');
+            pause.textContent = 'Pause';
+            pause.style.position = 'relative';
+            pause.style.left = '25.5%';
+            pause.style.top = '70.5%';
+            pause.setAttribute('class', 'pause');
+            document.body.appendChild(pause);
+
+
+            let play = document.createElement('button');
+            play.textContent = 'Play';
+            play.style.display = 'none';
+            play.setAttribute('class', 'play');
+            document.body.appendChild(play);
+
+            pause.addEventListener('click', function () {
+                clearInterval(interval);
+                play.style.display = 'block';
+                play.style.position = 'absolute';
+                pause.style.display = 'none';
+                play.style.left = '34.4%';
+                play.style.top = '70.5%';
+                ;
+            });
+
+            play.addEventListener('click', function () {
+                interval = setInterval(() => {
+                    second++;
+                    if (second == 60) {
+                        minute++;
+                        second = 0;
+                    }
+                    if (minute == 60) {
+                        hour++;
+                        minute = 0;
+                    }
+
+                    document.querySelector('.first').innerHTML = hour;
+                    document.querySelector('.second').innerHTML = minute;
+                    document.querySelector('.third').innerHTML = second;
+                }, 1000);
+                pause.style.position = 'absolute';
+                pause.style.left = '34.4%';
+                pause.style.top = '70.5%';
+                play.style.display = 'none';
+                pause.style.display = 'block';
+            });
+            let lap = document.createElement('button');
+            lap.style.position = 'absolute';
+            lap.textContent = "Lap";
+            lap.style.left = '19.4%';
+            lap.style.top = '70.5%';
+            document.body.appendChild(lap);
+            lap.addEventListener('click', function () {
+                let table = document.querySelector('table');
+                let row = document.createElement('tr');
+                let col1 = document.createElement('td');
+                let col2 = document.createElement('td');
+                let col3 = document.createElement('td');
+
+                if (count == 0) {
+                    h1 = hour;
+                    m1 = minute;
+                    s1 = second;
+                }
+
+                col1.innerHTML = count++;
+                col2.innerHTML = hour + ':' + minute + ':' + second;
+                col3.innerHTML = (hour - h1) + ':' + (minute - m1) + ':' + (second - s1);
+
+                row.appendChild(col1);
+                row.appendChild(col2);
+                row.appendChild(col3);
+
+
+                table.insertBefore(row, table.children[1]);
+
+                h1 = hour;
+                m1 = minute;
+                s1 = second;
+                if (count == 10) {
+                    let s = document.body;
+                    s.style.background = 'black';
+                    let k = document.querySelector('h1');
+                    k.style.color = 'red';
+                    k.style.borderColor = 'red';
+                    let main = document.querySelector('.upper,.first,.second,.third');
+                    main.style.display = 'none';
+                    restart.style.display = 'none';
+
+                    pause.style.display = 'none';
+                    play.style.display = 'none';
+                    lap.style.background = 'red';
+                    lap.style.color = 'black';
+                    let val = document.querySelector('.end');
+                    val.textContent = 'You can not enter more than 10 values';
+                    val.style.fontFamily = "Tiny5";
+                    val.style.color = 'red';
+                    val.style.fontSize = '40px';
+                    val.style.paddingTop = '40px';
+                    val.style.paddingLeft = '40px';
+                    lap.textContent = 'Restart';
+                    let tables = document.querySelector('table');
+
+                    if (tables) {
+                        tables.style.backgroundColor = 'black';
+                        tables.style.borderColor = 'red';
+                    }
+
+                    let headerRows = document.querySelectorAll('#fir');
+
+                    headerRows.forEach(element => {
+                        element.style.backgroundColor = 'black';
+                        element.style.color = 'red';
+                    });
+                }
+                if (count == 11) {
+                    let del = document.querySelector('table');
+                    while (table.rows.length > 1) {
+                        table.deleteRow(1);
+                    }
+                    document.body.style.background = 'url("back.jpg")';
+                    let k = document.querySelector('h1');
+                    k.style.color = 'rgb(99, 99, 225)';
+                    k.style.borderColor = 'rgb(99, 99, 225)';
+                    let main = document.querySelector('.upper,.first,.second,.third');
+                    main.style.display = 'block';
+                    restart.style.display = 'block';
+                    pause.style.display = 'block';
+                    play.style.display = 'none';
+                    lap.style.background = 'rgb(238, 127, 238)';
+                    lap.style.color = 'blueviolet';
+                    let tables = document.querySelector('table');
+                    if (tables) {
+                        tables.style.backgroundColor = 'rgb(238, 127, 238)';
+                        tables.style.borderColor = 'blueviolet';
+                    }
+                    let headerRows = document.querySelectorAll('#fir');
+                    headerRows.forEach(element => {
+                        element.style.backgroundColor = 'rgb(238, 127, 238)';
+                        element.style.color = 'blueviolet';
+                    });
+                    count = 0;
+                    let bod = document.querySelector('body');
+                    bod.style.backgroundRepeat = 'no-repeat';
+                    bod.style.backgroundPosition = 'center';
+                    bod.style.backgroundPosition = 'center';
+                    bod.style.backgroundSize = 'cover';
+                    let fof = document.querySelector('.end');
+                    fof.style.boxShadow = 'none';
+                    fof.style.borderColor = 'transparent';
+                    pause.style.position = 'absolute';
+                    pause.style.left = '34.4%';
+                    pause.style.top = '70.5%';
+                    lap.textContent = 'Lap';
+
+                }
+
+            });
+        }
+
+
+
+    </script>
+</body>
+
+</html>

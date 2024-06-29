@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        * {
+            margin: 0px;
+        }
+
+        body {
+            background: url('../stuff/back.jpg') no-repeat center fixed;
+            background-size: cover;
+        }
+
+        .upper {
+            border: 6px solid blue;
+            position: relative;
+            width: 590px;
+            height: 300px;
+            top: 120px;
+            left: 220px;
+            box-shadow: 19px 15px 15px 15px plum;
+        }
+
+        .first,
+        .second,
+        .third {
+            border: 6px solid;
+            width: 150px;
+            height: 200px;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .first {
+            border-color: rgb(46, 143, 176);
+            left: 220px;
+            top: 120px;
+        }
+
+        .second {
+            border-color: rgb(227, 97, 117);
+            left: 376px;
+            top: 120px;
+        }
+
+        .third {
+            border-color: rgb(6, 175, 15);
+            left: 531px;
+            top: 120px;
+        }
+
+        .first:hover {
+            box-shadow: 5px 5px 15px rgb(46, 143, 176);
+        }
+
+        .second:hover {
+            box-shadow: 5px 5px 15px rgb(227, 97, 117);
+        }
+
+        .third:hover {
+            box-shadow: 5px 5px 15px rgb(6, 175, 15);
+        }
+
+        .time-display {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="upper">
+        <div class="first">
+            <div class="time-display" id="time1">00:00:00</div>
+            <div class="buttons">
+                <button onclick="startStopwatch(1)">Start</button>
+                <button onclick="stopStopwatch(1)">Stop</button>
+                <button onclick="resetStopwatch(1)">Reset</button>
+            </div>
+        </div>
+        <div class="second">
+            <div class="time-display" id="time2">00:00:00</div>
+            <div class="buttons">
+                <button onclick="startStopwatch(2)">Start</button>
+                <button onclick="stopStopwatch(2)">Stop</button>
+                <button onclick="resetStopwatch(2)">Reset</button>
+            </div>
+        </div>
+        <div class="third">
+            <div class="time-display" id="time3">00:00:00</div>
+            <div class="buttons">
+                <button onclick="startStopwatch(3)">Start</button>
+                <button onclick="stopStopwatch(3)">Stop</button>
+                <button onclick="resetStopwatch(3)">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timers = [0, 0, 0];
+        let intervals = [null, null, null];
+
+        function updateTime(box) {
+            let seconds = timers[box - 1];
+            let hrs = Math.floor(seconds / 3600);
+            let mins = Math.floor((seconds % 3600) / 60);
+            let secs = seconds % 60;
+
+            document.getElementById(`time${box}`).textContent =
+                `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function startStopwatch(box) {
+            if (intervals[box - 1]) return;
+
+            intervals[box - 1] = setInterval(() => {
+                timers[box - 1]++;
+                updateTime(box);
+            }, 1000);
+        }
+
+        function stopStopwatch(box) {
+            clearInterval(intervals[box - 1]);
+            intervals[box - 1] = null;
+        }
+
+        function resetStopwatch(box) {
+            stopStopwatch(box);
+            timers[box - 1] = 0;
+            updateTime(box);
+        }
+    </script>
+</body>
+
+</html>
